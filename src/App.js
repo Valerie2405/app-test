@@ -1,5 +1,6 @@
 import Search from './components/Search'
-import React, {useState} from 'react';
+import axios from 'axios'
+import React, {useState} from 'react'
 
 function App() {
 
@@ -10,8 +11,16 @@ function App() {
   } );
 
   // api url
-  const apiurl = '`https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${searchParam}&r=json`'
+  const apiurl = 'http://www.omdbapi.com/?i=tt3896198&apikey=7f581b67'
 
+  //search function + axios library to help getting the data
+  const search  = (e) => {
+    if (e.key === "Enter") {
+      axios(apiurl+ "&s=" + state.s).then((data)=> {
+        //console.log(data)
+      });
+    }
+  }
 
 //handle event: preserve what user types in search box
   const handleInput = (e) => {
@@ -34,7 +43,7 @@ function App() {
        <h1> Let's find you're favorite Movie !</h1> 
       </header>
       <main> 
-        <Search handleInput={handleInput} />
+        <Search handleInput={handleInput} search = {search} />
       </main>
     </div>
   );
