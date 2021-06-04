@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import Search from './components/Search'
+import React from 'react';
 
 function App() {
+  /*
+  main has three components:
+  Search Bar component, Result Component, Popup Component (details) 
+  */
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+       <h1> Let's find you're favorite Movie !</h1> 
       </header>
+      <main> 
+        <Search />
+      </main>
     </div>
   );
 }
 
-export default App;
+export default App
