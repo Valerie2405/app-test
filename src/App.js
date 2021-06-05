@@ -16,7 +16,13 @@ function App() {
   //search function + axios library to help getting the data
   const search  = (e) => {
     if (e.key === "Enter") {
-      axios(apiurl+ "&s=" + state.s).then((data)=> {
+      axios(apiurl+ "&s=" + state.s).then(({data})=> {
+        let result = data.Search;
+        //updating the list of results with the current result 
+        // and storing the informatin 
+        setState(prevState => {
+          return {...prevState, results: results}
+        })
         //console.log(data)
       });
     }
