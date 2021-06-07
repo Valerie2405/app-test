@@ -1,5 +1,6 @@
 import Search from './components/Search'
 import Results from './components/Results'
+import Popup from './components/Popup'
 import axios from 'axios'
 import React, {useState} from 'react'
 
@@ -40,6 +41,24 @@ function App() {
     
     console.log(state.s);
   }
+
+  //handle popup
+  const openPopup= id => {
+    axios(apiurl + "&i=" + id).then(({data}) => {
+      let result = data;
+      console.log(result);
+
+      setState(prevState => {
+        return {...prevState, selected: result}
+      });
+    });
+  }
+
+  const closedPopup = () => {
+    setState(prevState => {
+      return {...prevState, selected: {}}
+    });
+  }
   /*
   main has three components:
   Search Bar component, Result Component, Popup Component (details) 
@@ -51,10 +70,14 @@ function App() {
       </header>
       <main> 
         <Search handleInput={handleInput} search = {search} />
-        <Results results={state.results}/>
+        <Results results={state.results} openPopup={openPopup}/>
+
+     {(typeof state.selected.Title != "undefined") ? <Popup selected={state.selected} closedPopup={closedPopup} /> : false}
       </main>
     </div>
   );
 }
 
 export default App
+
+    
