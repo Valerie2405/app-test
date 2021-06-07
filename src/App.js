@@ -1,4 +1,5 @@
 import Search from './components/Search'
+import Results from './components/Results'
 import axios from 'axios'
 import React, {useState} from 'react'
 
@@ -17,13 +18,13 @@ function App() {
   const search  = (e) => {
     if (e.key === "Enter") {
       axios(apiurl+ "&s=" + state.s).then(({data})=> {
-        let result = data.Search;
+        let results = data.Search;
         //updating the list of results with the current result 
         // and storing the informatin 
         setState(prevState => {
           return {...prevState, results: results}
         })
-        //console.log(data)
+        console.log(data)
       });
     }
   }
@@ -50,6 +51,7 @@ function App() {
       </header>
       <main> 
         <Search handleInput={handleInput} search = {search} />
+        <Results results={state.results}/>
       </main>
     </div>
   );
