@@ -2,7 +2,7 @@ import React from 'react'
 
 function Result({result,openPopup}) {
     return (
-        <div className="result" onClick="openPopup">
+        <div className="result" onClick={openPopup}>
             <img src ={result.Poster} />
             <h3>{result.Title}</h3>
             <h3>{result.Released}</h3>
