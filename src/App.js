@@ -2,7 +2,9 @@ import Search from './components/Search'
 import Results from './components/Results'
 import Popup from './components/Popup'
 import axios from 'axios'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import ReactPaginate from 'react-paginate';
+
 
 function App() {
 
@@ -11,6 +13,9 @@ function App() {
     results:[], 
     selected: {}
   } );
+  const [offset,setOffset] = useState(1);
+  const [postsPerPage] = useState(10);
+  const [pageCount, setPageCount] = useState(0);
 
   // api url
   const apiurl = 'http://www.omdbapi.com/?apikey=7f581b67'
@@ -26,6 +31,8 @@ function App() {
         setState(prevState => {
           return {...prevState, results: results}
         })
+     //   const slice = results.slice(offset - 1, offset - 1 + postsPerPage)
+        setPageCount(Math.ceil(results.length/postsPerPage))
         console.log(data)
       });
     }
@@ -60,6 +67,14 @@ function App() {
       return {...prevState, selected: {}}
     });
   }
+
+  const Click = (e) => {
+    const selectedPage = e.selected;
+    setOffset(selectedPage + 1);
+  }
+
+
+
   /*
   main has three components:
   Search Bar component, Result Component, Popup Component (details) 
@@ -74,6 +89,16 @@ function App() {
         <Results results={state.results} openPopup={openPopup}/>
 
      {(typeof state.selected.Title != "undefined") ? <Popup selected={state.selected} closedPopup={closedPopup} /> : false}
+     <ReactPaginate
+     previousLabel = {"Previous"}
+     nextLabel = {"Next"}
+     breakLabel={". . ."}
+     breakClassName={"break-me"}
+     onPageChange={Click}
+     containerClassName={"pagination"}
+     subContainerClassName={"pages pagination"}
+    activeClassName={"active"}
+     />
       </main>
     </div>
   );
