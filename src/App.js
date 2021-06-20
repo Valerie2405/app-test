@@ -2,8 +2,9 @@ import Search from './components/Search'
 import Results from './components/Results'
 import Popup from './components/Popup'
 import axios from 'axios'
-import React, {useEffect, useState} from 'react'
-import ReactPaginate from 'react-paginate';
+import React, 
+ {useState} from 'react'
+import ReactPagination from 'react-paginate';
 
 
 function App() {
@@ -11,14 +12,13 @@ function App() {
   const [state, setState] = useState ( {
     s:'', // search query
     results:[], 
-    selected: {}
+    selected: {},
+    totalResults : 0, // # of movies requeted from api
+
   } );
-  const [offset,setOffset] = useState(1);
-  const [postsPerPage] = useState(10);
-  const [pageCount, setPageCount] = useState(0);
 
   // api url
-  const apiurl = 'http://www.omdbapi.com/?apikey=7f581b67'
+  const apiurl = 'https://www.omdbapi.com/?apikey=7f581b67'
   
   //http://www.omdbapi.com/?i=tt3896198&apikey=7f581b67'
   //search function + axios library to help getting the data
@@ -26,16 +26,16 @@ function App() {
     if (e.key === "Enter") {
       axios(apiurl+ "&s=" + state.s).then(({data})=> {
         let results = data.Search;
+        
         //updating the list of results with the current result 
         // and storing the informatin 
         setState(prevState => {
-          return {...prevState, results: results}
+          return {...prevState, results: results,totalResults:data.total_results}
         })
-     //   const slice = results.slice(offset - 1, offset - 1 + postsPerPage)
-        setPageCount(Math.ceil(results.length/postsPerPage))
         console.log(data)
       });
     }
+
   }
 
 //handle event: preserve what user types in search box
@@ -49,6 +49,22 @@ function App() {
     
     console.log(state.s);
   }
+  
+// method for when pagination links are clicked
+  const handlePageChange = (pageNumber) => {
+    const pageNumber1 = pageNumber + 1
+    axios(apiurl+ "&s=" + state.s+"&page="+{pageNumber1}).then(({data})=> {
+      let results = data.Search;
+      //updating the list of results with the current result 
+      // and storing the informatin
+      setState(prevState => {
+        return {...prevState, results: results, currentPage:pageNumber1}
+      })
+      console.log(data)
+      console.log(pageNumber)
+  })
+
+}
 
   //handle popup
   const openPopup= id => {
@@ -68,17 +84,12 @@ function App() {
     });
   }
 
-  const Click = (e) => {
-    const selectedPage = e.selected;
-    setOffset(selectedPage + 1);
-  }
-
-
 
   /*
   main has three components:
   Search Bar component, Result Component, Popup Component (details) 
   */
+ 
   return (
     <div className="App">
       <header>
@@ -89,19 +100,19 @@ function App() {
         <Results results={state.results} openPopup={openPopup}/>
 
      {(typeof state.selected.Title != "undefined") ? <Popup selected={state.selected} closedPopup={closedPopup} /> : false}
-     <ReactPaginate
-     previousLabel = {"Previous"}
-     nextLabel = {"Next"}
-     breakLabel={". . ."}
-     breakClassName={"break-me"}
-     onPageChange={Click}
-     containerClassName={"pagination"}
-     subContainerClassName={"pages pagination"}
-    activeClassName={"active"}
-     />
+     
+     <ReactPagination
+         previousLabel={"previous"}
+         nextLabel={"next"}
+         breakLabel={"..."}
+         breakClassName={"break-me"}
+         onPageChange={handlePageChange}
+         activeClassName={"active"}
+         />
       </main>
     </div>
   );
+
 }
 
 export default App
