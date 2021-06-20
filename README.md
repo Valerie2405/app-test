@@ -16,5 +16,5 @@ Built using:
 - HTML5
 To run the project locally
 - in APP.js l.21 replace the key with your key
-Link to a live deployed website using Github pages:
+- Link to a live deployed website using Github pages:
  <https://valerie2405.github.io/app-test/>
