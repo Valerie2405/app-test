@@ -1,5 +1,10 @@
 import React from 'react'
-
+/**
+ * Search function 
+ * @param {handleInput} handleInput handleinput method
+ * @param {search} search search method
+ * @returns film that was searched by user
+ */
 function Search({ handleInput, search }) {
     return(
         <section className="searchbox-wrap">

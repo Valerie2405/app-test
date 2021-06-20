@@ -1,5 +1,10 @@
 import React from 'react'
-
+/**
+ * Component created to handle the page when a movie is clicked
+ * @param {selected} selected what was selected
+ * @param {closedPopup} closedpopup represents the closedpopup const in app
+ * @returns information for movie selected
+ */
 function Popup({selected,closedPopup}){
     return(
         <section className="popup">
