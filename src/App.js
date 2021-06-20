@@ -69,7 +69,7 @@ function App() {
       //updating the list of results with the current result 
       // and storing the informatin
       setState(prevState => {
-        return {...prevState, results: results, currentPage:pageNumber1}
+        return {...prevState, results: results, currentPage:pageNumber}
       })
       console.log(data)
       console.log(pageNumber)
